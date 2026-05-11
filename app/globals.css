@@ -4,10 +4,24 @@
   --color-bone: #f2efe9;
   --color-steel: #1a1d21;
   --color-concrete: #9aa0a6;
+  /* concrete-deep: 5.21:1 on Bone. Use for secondary text and the "DEV"
+     half of the wordmark. The original --color-concrete fails AA at 2.30:1
+     and is reserved for hairlines / borders only. */
+  --color-concrete-deep: #5e646b;
   --color-sodium: #f2b705;
 
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+/* -----------------------------------------------------------------------------
+ * Surface foundation
+ * Bone background + Steel ink. Tabular figures stay default-off; opt-in per use.
+ * --------------------------------------------------------------------------- */
+html {
+  background: var(--color-bone);
+  /* Smooth-scroll hash jumps (skip link, #audit, #about). */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -15,9 +29,204 @@ body {
   color: var(--color-steel);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular figures everywhere a digit needs to sit on a grid. */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 ::selection {
   background-color: var(--color-sodium);
   color: var(--color-steel);
+}
+
+/* -----------------------------------------------------------------------------
+ * Subtle grain — keeps the Bone surface from reading sterile.
+ * SVG feTurbulence noise rendered once and tiled. ~3.5% opacity.
+ * Inlined data-URI so it ships on the document, not a network round-trip.
+ * --------------------------------------------------------------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* fractalNoise at low baseFrequency = soft paper grain. numOctaves keeps it cheap. */
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.11 0 0 0 0 0.13 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+}
+
+/* Push real content above the noise layer. */
+main,
+footer,
+header,
+.skip-anchor {
+  position: relative;
+  z-index: 1;
+}
+
+/* -----------------------------------------------------------------------------
+ * Focus states — Sodium ring with offset against Bone.
+ * Discipline: rings only on focus-visible. Mouse users never see them.
+ * --------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-sodium);
+  outline-offset: 3px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-sodium);
+  outline-offset: 3px;
+}
+
+/* -----------------------------------------------------------------------------
+ * CTA hover treatments — the disciplined sodium accent moment.
+ * Primary: subtle sodium underline that grows from 0 -> full width on hover.
+ * Ghost / mail: 1px concrete underline that thickens + saturates to sodium.
+ * Pick ONE per CTA — don't pile.
+ *
+ * Mobile audit round 3, finding #4: hover-only effects gated on
+ * (hover: hover) + (pointer: fine) so touch users don't read a flat page.
+ * For touch users, ghost/mail/footer links get a visible 1px concrete resting
+ * state (no animation) so they read as interactive without the hover ramp.
+ * On :active (touch tap) the underline goes sodium briefly.
+ * --------------------------------------------------------------------------- */
+.cta-primary {
+  position: relative;
+  overflow: hidden;
+}
+.cta-primary::after {
+  content: "";
+  position: absolute;
+  left: 28px; /* matches px-7 inner padding */
+  right: 28px;
+  bottom: 8px;
+  height: 1.5px;
+  background: var(--color-sodium);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cta-primary:focus-visible::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta-primary:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Ghost + mail labels — touch users get a 1px concrete resting underline so
+   they read as interactive. Pointer users get the grow-to-sodium animation.
+   Active state (tap or click-down) flashes sodium on both. */
+.cta-ghost-label,
+.cta-mail-label {
+  position: relative;
+  padding-bottom: 3px;
+  background-image: linear-gradient(var(--color-concrete), var(--color-concrete));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  transition: background-size 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    background-image 0.2s ease-out;
+}
+.cta-ghost:focus-visible .cta-ghost-label,
+.cta-mail:focus-visible .cta-mail-label,
+.cta-ghost:active .cta-ghost-label,
+.cta-mail:active .cta-mail-label {
+  background-image: linear-gradient(var(--color-sodium), var(--color-sodium));
+  background-size: 100% 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta-ghost:hover .cta-ghost-label,
+  .cta-mail:hover .cta-mail-label {
+    background-image: linear-gradient(var(--color-sodium), var(--color-sodium));
+    background-size: 100% 2px;
+  }
+}
+
+/* Footer links: touch users get a visible 1px concrete resting underline.
+   Pointer users keep the existing grow-from-0 animation. */
+.footer-link {
+  position: relative;
+  padding-bottom: 2px;
+  background-image: linear-gradient(var(--color-concrete), var(--color-concrete));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  transition: background-size 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    background-image 0.2s ease-out;
+}
+.footer-link:focus-visible,
+.footer-link:active {
+  background-image: linear-gradient(var(--color-sodium), var(--color-sodium));
+  background-size: 100% 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer-link {
+    /* Pointer devices revert to grow-from-0 — no resting underline needed
+       because hover gives the affordance. */
+    background-image: linear-gradient(transparent, transparent);
+    background-size: 0% 1px;
+  }
+  .footer-link:hover {
+    background-image: linear-gradient(var(--color-sodium), var(--color-sodium));
+    background-size: 100% 1px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * AuditCard — resting state strong enough on touch that hover isn't needed.
+ * Pointer users get the original border/hairline color shift on hover.
+ * --------------------------------------------------------------------------- */
+.audit-card {
+  border-color: rgb(154 160 166 / 0.45); /* concrete/45 — stronger resting state on touch */
+}
+.audit-card-rule {
+  background-color: rgb(154 160 166 / 0.4); /* concrete/40 */
+}
+@media (hover: hover) and (pointer: fine) {
+  .audit-card {
+    border-color: rgb(154 160 166 / 0.3); /* concrete/30 — original resting */
+  }
+  .audit-card:hover {
+    border-color: rgb(26 29 33 / 0.4); /* steel/40 */
+  }
+  .audit-card:hover .audit-card-rule {
+    background-color: rgb(26 29 33 / 0.4); /* steel/40 */
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Reduced motion — kill all CTA grow/nudge transitions and GSAP-side animations
+ * are short-circuited at the component level via prefers-reduced-motion check.
+ * --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .cta-primary::after {
+    transform: scaleX(1);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Print: noise off, fonts switched to system stack for crispness.
+ * --------------------------------------------------------------------------- */
+@media print {
+  body::before {
+    display: none;
+  }
 }
