@@ -53,11 +53,13 @@ export function About() {
               three weeks running.
             </p>
             <p>
-              Technical depth predates the construction year &mdash;
-              React/Next.js/Supabase/Python, AI tooling fluent. Built the
-              automation stack inside a real $7M sub. Not learning on your dime.
-              I work alone, fast. Small client, small contract &mdash; get a
-              quick win, decide if you want more.
+              Technical depth predates the construction year. React, Next.js,
+              Supabase, Python. AI tooling fluent. Built the automation stack
+              inside a real $7M sub. Not learning on your dime.
+            </p>
+            <p>
+              Work alone, fast. No agency overhead. Small client, small
+              contract. Get a quick win, decide if you want more.
             </p>
 
             <p className="pt-6">

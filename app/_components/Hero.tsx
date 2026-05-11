@@ -114,11 +114,10 @@ export function Hero({ heroImageEnabled: _heroImageEnabled = false }: HeroProps 
             maxWidth: "58ch",
           }}
         >
-          I spent the past year inside a $7M glazing sub &mdash; payroll, daily
-          reports, change orders, compliance. I&rsquo;m a developer by background,
-          so when AI got good I started automating the back office instead of
-          growing the team. Got the owner 20+ hours a week back. Now I do this
-          for other SMB subs.
+          Most small businesses are running back-office workflows AI could
+          just delete. Payroll, dailies, intake, AP. I spent a year inside a
+          $7M glazing sub doing exactly that. Now I run one-week audits for
+          other SMBs across construction, restaurants, IT, and web.
         </p>
 
         {/* TODO Mon AM: when Cal.com URL lands, swap primary back to active

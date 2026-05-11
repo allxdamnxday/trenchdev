@@ -5,9 +5,9 @@ import { spaceGrotesk, inter } from "./_lib/fonts";
 
 const SITE_URL = "https://trenchdev.com";
 const SITE_NAME = "Trench Dev";
-const SITE_TITLE = "Trench Dev — AI automation for SMB construction";
+const SITE_TITLE = "Trench Dev | AI automation for SMB construction";
 const SITE_DESC =
-  "One-week workflow audits for SMB construction subs. $3,500. From an ops admin who clawed 20+ hours a week back at a $7M glazing sub.";
+  "One-week workflow audits for $2-20M small businesses. $3,500. From an ops admin who got 20+ hours a week back at a $7M glazing sub.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Trench Dev — AI automation for SMB construction",
+        alt: "Trench Dev | AI automation for SMB construction",
       },
     ],
   },

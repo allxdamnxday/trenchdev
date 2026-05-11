@@ -7,21 +7,21 @@ import { AuditCard } from "./AuditCard";
 const AUDIT_DELIVERABLES = [
   {
     index: "01",
-    title: "3–5 workflows audited",
+    title: "3-5 workflows audited",
     body:
-      "Payroll, daily reports, change orders, intake, AP — whichever ones are bleeding. Real walkthroughs with your team, not surveys.",
+      "Payroll, dailies, change orders, intake, AP. Whichever ones are bleeding. Real walkthroughs with your team, not a survey.",
   },
   {
     index: "02",
     title: "ROI-ranked roadmap",
     body:
-      "Each workflow gets an hours-saved estimate, build difficulty, and risk. You see the order of attack before signing anything bigger.",
+      "Hours saved, build difficulty, risk. Ranked. You see the order of attack before signing anything bigger.",
   },
   {
     index: "03",
     title: "1 quick win shipped",
     body:
-      "By the end of week one, at least one workflow is already saving hours. Proves the pattern before you commit further.",
+      "End of week one, at least one workflow is already saving hours. Proves the pattern before you commit to a build.",
   },
 ] as const;
 

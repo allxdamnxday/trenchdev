@@ -42,3 +42,5 @@ next-env.d.ts
 
 # Brand reference assets pulled by Figma MCP during build
 userdatainput/
+
+.vercel

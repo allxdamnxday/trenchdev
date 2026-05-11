@@ -66,7 +66,7 @@ export function Footer() {
           <p className="text-steel/55">
             <span className="tabular-nums">v1</span>
             <span aria-hidden className="mx-2 text-steel/35">/</span>
-            Last revised <time dateTime="2026-05-10" className="tabular-nums">2026-05-10</time>
+            Last revised <time dateTime="2026-05-11" className="tabular-nums">2026-05-11</time>
           </p>
         </div>
       </div>
